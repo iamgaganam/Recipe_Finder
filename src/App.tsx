@@ -1,35 +1,38 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { FavoritesProvider } from "./context/FavoritesContext";
+import Navbar from "./components/common/Navbar";
+import SearchPage from "./components/search/SearchPage";
+import RecipeDetailPage from "./components/recipe/RecipeDetailPage";
+import FavoritesPage from "./components/favorites/FavoritesPage";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <BrowserRouter>
+      <FavoritesProvider>
+        <div className="flex min-h-screen flex-col bg-gray-50">
+          <Navbar />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<SearchPage />} />
+              <Route path="/recipe/:id" element={<RecipeDetailPage />} />
+              <Route path="/favorites" element={<FavoritesPage />} />
+            </Routes>
+          </main>
+          <footer className="bg-gray-900 py-6 text-center text-sm text-gray-400">
+            <p>
+              Recipe Finder &copy;{new Date().getFullYear()} - Developed by{" "}
+              <a
+                href="https://www.linkedin.com/in/gagana-methmal/"
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-orange-400 transition-colors hover:text-orange-300"
+              >
+                Gagana Methmal
+              </a>
+            </p>
+          </footer>
+        </div>
+      </FavoritesProvider>
+    </BrowserRouter>
+  );
 }
-
-export default App
